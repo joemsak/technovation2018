@@ -1,49 +1,78 @@
-// Run this example by adding <%= javascript_pack_tag 'hello_react' %> to the head of your layout file,
-// like app/views/layouts/application.html.erb. All it does is render <div>Hello React</div> at the bottom
-// of the page.
-
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+
 import axios from 'axios'
 import _ from 'lodash'
 
-class Hello extends Component {
-  render() {
-    axios.get('/users')
-      .then(function ({data}) {
-        var list = document.getElementById('axios-me');
+class App extends Component {
+  componentDidMount() {
+    var form = document.querySelector("#new_user");
 
-        list.innerHTML = null;
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
 
-        _.each(data, function(user) {
-          var li = document.createElement('li');
-          li.innerText = user.name;
-          list.append(li);
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
+      _.each(e.target.querySelectorAll('.field .error-msg'), function(el) {
+        el.remove();
       });
 
+      var pwdField = e.target.querySelector('#user_password');
+
+      axios({
+        url: e.target.action,
+        method: 'POST',
+        headers: {
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+        },
+        data: {
+          user: {
+            password: pwdField.value,
+          },
+        },
+      })
+      .then(function (response) {
+        var div = document.createElement('div');
+        div.innerText = "You signed up as User ID #" + response.data.id;
+        e.target.after(div);
+        e.target.remove();
+      })
+      .catch(function (error) {
+        var errors = error.response.data,
+            fieldsWithErrors = _.keys(errors);
+
+        _.each(fieldsWithErrors, function(field) {
+          var input = e.target.querySelector("#user_" + field);
+
+          _.each(errors[field], function(err) {
+            var errMsg = document.createElement('div');
+
+            errMsg.classList.add('error-msg');
+            errMsg.innerText = err;
+
+            input.after(errMsg);
+          });
+        });
+      });
+    });
+  }
+
+  render() {
     return (
-      <ul id="axios-me">
-        <li>Loading...</li>
-      </ul>
+      <form id="new_user" action="/users" method="POST">
+        <div className="field">
+          <label htmlFor="user_password">Password</label>
+          <input type="password" id="user_password" name="user[password]" />
+        </div>
+
+        <div className="form-actions">
+          <input type="submit" className="btn btn-std" value="Sign up" />
+        </div>
+      </form>
     );
   }
 }
-
-Hello.defaultProps = {
-  name: 'David'
-}
-
-Hello.propTypes = {
-  name: React.PropTypes.string
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Hello name={name} />,
+    <App />,
     document.body.appendChild(document.createElement('div')),
   )
 })
