@@ -1,7 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  password_digest: MyString
+joe:
+  email: joe@iridescentlearning.org
+  password_digest: somethingRandom
 
-two:
-  password_digest: MyString
+alli:
+  email: allic@iridescentlearning.org
+  password_digest: somethingRandom
