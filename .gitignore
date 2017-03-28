@@ -1,0 +1,13 @@
+/.bundle
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+/node_modules
+/yarn-error.log
+**/*.backup
+.byebug_history
+/public/packs
+/node_modules
