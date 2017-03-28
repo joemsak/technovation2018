@@ -10,6 +10,7 @@ gem 'rails', '~> 5.1.0.rc1'
 gem 'pg', "~> 0.20"
 gem 'puma', '~> 3.8'
 gem 'sass-rails', github: "rails/sass-rails"
+gem 'knock', "~> 2.1"
 
 gem 'normalize-rails', "~> 4.1"
 gem 'uglifier', '~> 3.1'
