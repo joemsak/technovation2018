@@ -1,0 +1,42 @@
+form {
+  padding: 1rem;
+
+  .field {
+    margin: 1rem 0 0;
+
+    label {
+      display: block;
+      margin: 1rem 0 0;
+      cursor: pointer;
+    }
+
+    input {
+      padding: 0.5rem 0.2rem;
+    }
+  }
+}
+
+.btn {
+  outline: 0;
+  border: 1px solid black;
+  background: inherit;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  cursor: pointer;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
+
+  &:active {
+    margin: 1.2rem 0 0 0.2rem;
+    box-shadow: none;
+  }
+
+  &.btn-std {
+    border: 0;
+    background: rgba(131,173,181,0.2);
+    transition: background-color 0.5s;
+
+    &:hover {
+      background: rgba(131,173,181,0.4);
+    }
+  }
+}

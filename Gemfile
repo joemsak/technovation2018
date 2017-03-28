@@ -11,6 +11,7 @@ gem 'pg', "~> 0.20"
 gem 'puma', '~> 3.8'
 gem 'sass-rails', github: "rails/sass-rails"
 
+gem 'normalize-rails', "~> 4.1"
 gem 'uglifier', '~> 3.1'
 gem 'webpacker', "~> 1.1"
 
