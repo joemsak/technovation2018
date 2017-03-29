@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
 import decodeJWT from 'jwt-decode'
-import _ from 'lodash'
 
 import SignupForm from './components/signup_form'
 import SigninForm from './components/signin_form'

@@ -1,46 +1,16 @@
 import React, { Component } from 'react'
 
-import axios from 'axios'
-import _ from 'lodash'
-
-import handleFormErrors from './../utils/handle-form-errors'
+import handleFormSubmit from './../utils/handle-form-submit'
 
 class SigninForm extends Component {
-  componentDidMount() {
-    var signInForm = document.querySelector("#auth");
-
-    signInForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      _.each(e.target.querySelectorAll('.field .error-msg'), function(el) {
-        el.remove();
-      });
-
-      var emailField = e.target.querySelector('#auth_email'),
-          pwdField = e.target.querySelector('#auth_password');
-
-      axios({
-        url: e.target.action,
-        method: 'POST',
-        headers: {
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
-        },
-        data: {
-          auth: {
-            email: emailField.value,
-            password: pwdField.value,
-          },
-        },
-      })
-
-      .then(function (response) {
-        this.props.onSignin(response.data);
-      }.bind(this))
-
-      .catch(function (error) {
-        handleFormErrors(error, e.target, { fieldPrefix: "auth" });
-      });
-    }.bind(this));
+  handleSubmit(event) {
+    handleFormSubmit(
+      event,
+      {
+        fieldPrefix: 'auth',
+        then: this.props.onSignin,
+      }
+    );
   }
 
   render() {
@@ -48,7 +18,12 @@ class SigninForm extends Component {
       <div id="signin" className="box">
         <h1>Sign in</h1>
 
-        <form id="auth" action="/user_token" method="POST">
+        <form
+          onSubmit={this.handleSubmit.bind(this)}
+          id="auth"
+          action="/user_token"
+          method="POST"
+        >
           <div className="field">
             <label htmlFor="auth_email">Email</label>
             <input type="email" id="auth_email" name="auth[email]" />
