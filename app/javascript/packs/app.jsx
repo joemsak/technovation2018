@@ -41,14 +41,11 @@ class App extends Component {
     );
   }
 
-  handleSignup(data) {
-    window.sessionStorage.setItem('accessToken', data.jwt);
-    this.setState({ authToken: data.jwt });
-  }
-
-  handleSignin(data) {
-    window.sessionStorage.setItem('accessToken', data.jwt);
-    this.setState({ authToken: data.jwt });
+  storeToken(data) {
+    if (data.jwt) {
+      window.sessionStorage.setItem('accessToken', data.jwt);
+      this.setState({ authToken: data.jwt });
+    }
   }
 
   logout(e) {
@@ -60,8 +57,8 @@ class App extends Component {
   renderAuthForms() {
     return (
       <div className="container">
-        <SignupForm onSignup={this.handleSignup.bind(this)} />
-        <SigninForm onSignin={this.handleSignin.bind(this)} />
+        <SignupForm onSignup={this.storeToken.bind(this)} />
+        <SigninForm onSignin={this.storeToken.bind(this)} />
       </div>
     );
   }
