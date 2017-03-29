@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import _ from 'lodash'
 
+import handleFormErrors from './../utils/handle-form-errors'
+
 class SignupForm extends Component {
   componentDidMount() {
     var signUpForm = document.querySelector("#new_user");
@@ -32,34 +34,13 @@ class SignupForm extends Component {
       })
 
       .then(function (response) {
-        var div = document.createElement('div');
-
-        div.innerText = "You signed up as " + response.data.email + ".";
-        div.innerText += " Sign in below.";
-
-        e.target.after(div);
-
-        e.target.remove();
-      })
+        this.props.onSignup(response.data);
+      }.bind(this))
 
       .catch(function (error) {
-        var errors = error.response.data,
-            fieldsWithErrors = _.keys(errors);
-
-        _.each(fieldsWithErrors, function(field) {
-          var input = e.target.querySelector("#user_" + field);
-
-          _.each(errors[field], function(err) {
-            var errMsg = document.createElement('div');
-
-            errMsg.classList.add('error-msg');
-            errMsg.innerText = err;
-
-            input.after(errMsg);
-          });
-        });
+        handleFormErrors(error, e.target, { fieldPrefix: "user" });
       });
-    });
+    }.bind(this));
   }
 
   render() {

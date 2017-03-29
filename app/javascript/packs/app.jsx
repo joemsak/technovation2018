@@ -17,7 +17,7 @@ class App extends Component {
 
   componentDidMount() {
     var token = window.sessionStorage.getItem('accessToken');
-    if (token)
+    if (!this.state.authToken && token)
       this.setState({ authToken: token });
   }
 
@@ -42,6 +42,16 @@ class App extends Component {
     );
   }
 
+  handleSignup(data) {
+    window.sessionStorage.setItem('accessToken', data.jwt);
+    this.setState({ authToken: data.jwt });
+  }
+
+  handleSignin(data) {
+    window.sessionStorage.setItem('accessToken', data.jwt);
+    this.setState({ authToken: data.jwt });
+  }
+
   logout(e) {
     e.preventDefault();
     window.sessionStorage.removeItem('accessToken');
@@ -51,8 +61,8 @@ class App extends Component {
   renderAuthForms() {
     return (
       <div className="container">
-        <SignupForm />
-        <SigninForm />
+        <SignupForm onSignup={this.handleSignup.bind(this)} />
+        <SigninForm onSignin={this.handleSignin.bind(this)} />
       </div>
     );
   }

@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import _ from 'lodash'
 
+import handleFormErrors from './../utils/handle-form-errors'
+
 class SigninForm extends Component {
   componentDidMount() {
     var signInForm = document.querySelector("#auth");
@@ -32,40 +34,13 @@ class SigninForm extends Component {
       })
 
       .then(function (response) {
-        window.sessionStorage.setItem('accessToken', response.data.jwt);
-
-        var div = document.createElement('div');
-
-        div.innerText = "You signed in as " + emailField.value + ".";
-
-        signUpForm.after(div);
-
-        e.target.remove();
-        signUpForm.remove();
-      })
+        this.props.onSignin(response.data);
+      }.bind(this))
 
       .catch(function (error) {
-        var errors = error.response.data;
-
-        if (error.response.status === 404)
-          errors = { email: ["does not exist in our database"] };
-
-        var fieldsWithErrors = _.keys(errors);
-
-        _.each(fieldsWithErrors, function(field) {
-          var input = e.target.querySelector("#auth_" + field);
-
-          _.each(errors[field], function(err) {
-            var errMsg = document.createElement('div');
-
-            errMsg.classList.add('error-msg');
-            errMsg.innerText = err;
-
-            input.after(errMsg);
-          });
-        });
+        handleFormErrors(error, e.target, { fieldPrefix: "auth" });
       });
-    });
+    }.bind(this));
   }
 
   render() {
