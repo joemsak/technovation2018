@@ -1,0 +1,35 @@
+.tabs {
+  .tabs-menu {
+    display: flex;
+    flex-direction: row;
+
+    .tabs-link {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      margin: 0 0.5rem 0 0;
+      text-decoration: none;
+      border: 1px solid #999;
+      background: white;
+
+      &.active {
+        border-bottom-width: 0;
+      }
+
+      &:last-child,
+      &:only-child {
+        margin: 0;
+      }
+    }
+  }
+
+  .tabs-content {
+    display: none;
+    border: 1px solid #999;
+    padding: 0 1rem;
+    margin: -1px 0 0;
+
+    &.active {
+      display: block;
+    }
+  }
+}

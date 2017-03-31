@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 
 import decodeJWT from 'jwt-decode'
 
+import Tabs from './components/tabs'
 import SignupForm from './components/signup_form'
 import SigninForm from './components/signin_form'
 
@@ -57,8 +58,20 @@ class App extends Component {
   renderAuthForms() {
     return (
       <div className="container">
-        <SignupForm onSignup={this.storeToken.bind(this)} />
-        <SigninForm onSignin={this.storeToken.bind(this)} />
+        <Tabs
+          tabs={{
+            signup: {
+              text: "Sign up",
+              href: "/signup",
+              content: <SignupForm onSignup={this.storeToken.bind(this)} />,
+            },
+            signin: {
+              text: "Sign in",
+              href: "/signin",
+              content: <SigninForm onSignin={this.storeToken.bind(this)} />,
+            },
+          }}
+        />
       </div>
     );
   }

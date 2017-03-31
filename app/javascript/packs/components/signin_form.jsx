@@ -15,7 +15,7 @@ class SigninForm extends Component {
 
   render() {
     return (
-      <div id="signin" className="box">
+      <div id="signin">
         <h1>Sign in</h1>
 
         <form

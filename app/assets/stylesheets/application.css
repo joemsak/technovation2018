@@ -13,6 +13,7 @@
  *= require normalize-rails
  *= require base
  *= require forms
+ *= require tabs
  *= require_tree .
  *= require_self
  */
