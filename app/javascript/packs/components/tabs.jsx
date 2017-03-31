@@ -2,9 +2,19 @@ import React, { Component } from 'react'
 
 export default class Tabs extends Component {
   componentDidMount() {
-    _.each(document.querySelectorAll('.tabs-link:first-child'), function(t) {
-      t.click();
-    });
+    var activeTabAnchor = location.href.split('#')[1],
+        anchoredContentTab = document.getElementById(activeTabAnchor);
+
+    if (activeTabAnchor && anchoredContentTab) {
+      var tabLink = document.querySelector(`[data-tab-id="${activeTabAnchor}"]`);
+      tabLink.click();
+    } else {
+      var firstTabs = document.querySelectorAll('.tabs-link:first-child');
+
+      _.each(firstTabs, function(t) {
+        t.click();
+      });
+    }
   }
 
   revealTab(e) {
@@ -24,6 +34,8 @@ export default class Tabs extends Component {
 
     e.target.classList.add('active');
     document.getElementById(tabId).classList.add('active');
+
+    location.href = location.href.split('#')[0] + "#" + e.target.dataset.tabId;
   }
 
   renderTabLinks() {
